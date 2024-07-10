@@ -1,0 +1,31 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>FirstName</th>
+      <th>Surname</th>
+      <th>Email</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (contact of contacts; track contact.id){
+    <tr>
+      <th scope="row">{{contact.id}}</th>
+      <td class="row align-items-center" [style.background-color]="contact.color">
+        <div class="col-auto">
+          <input class="form-control form-control-color" type="color" value="#ffffff"
+            (input)="changeColor(contact, $event)" />
+        </div>
+        <div class="col-auto">{{contact | contactName }}</div>
+      </td>
+
+      <td>{{contact.email}}</td>
+      <td>
+        <button class="btn btn-secondary me-2">Edit</button>
+        <button class="btn btn-danger" (click)="delete(contact)">Delete</button>
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>

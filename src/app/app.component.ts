@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Contact } from './models/contact.model';
 import { ContactNamePipe } from './pipes/contact-name.pipe';
 import { ContactFormComponent } from "./contact-form/contact-form.component";
 import { ContactListComponent } from "./contact-list/contact-list.component";
+import { ContactService } from './services/contact.service';
 
 @Component({
   selector: 'dp-root',
@@ -11,26 +12,30 @@ import { ContactListComponent } from "./contact-list/contact-list.component";
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-
+export class AppComponent implements OnInit {
+  contacts?: Contact[] =[];
   name: string;
-  contacts: Contact[] = [
-    { id: 4, firstName: 'Sam', surname: 'Smith', email: 'sam.smith@music.com' },
-    { id: 8, firstName: 'Frank', surname: 'Muscles', email: 'frank@muscles.com' },
-    { id: 15, firstName: 'Eddy', surname: 'Valentino', email: 'eddy@valfam.co.uk' },
-  ];
 
-
-
-  constructor() {
+  constructor(private contactService: ContactService) {
     this.name = 'world!';
+    this.contactService = contactService;
   }
 
+  ngOnInit(): void{
+    this.updateContacts();
+  }
+
+  private updateContacts() {
+		this.contactService.getObservable().subscribe(contacts => {
+			this.contacts = contacts;
+		});
+	}
+
   deleteContact(contact: Contact) {
-    this.contacts.splice(this.contacts.indexOf(contact), 1);
+    this.contactService.delete(contact.id);
   }
 
   addContact(contact: Contact) {
-    this.contacts.push(contact);
+    this.contactService.create(contact);
   }
 }

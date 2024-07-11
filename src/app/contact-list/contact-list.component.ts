@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Contact } from '../models/contact.model';
 import { ContactNamePipe } from "../pipes/contact-name.pipe";
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'dp-contact-list',
@@ -10,8 +11,11 @@ import { ContactNamePipe } from "../pipes/contact-name.pipe";
   styleUrl: './contact-list.component.scss'
 })
 export class ContactListComponent {
-  @Input() contacts: Contact[] = [];
+  @Input() contacts?: Contact[] = [];
   @Output() deleted = new EventEmitter<Contact>();
+	@Output() edit = new EventEmitter<Contact>();
+
+	private editingContacts = new Set<Contact>();
 
   delete(contact: Contact){
     this.deleted.emit(contact);
@@ -20,4 +24,19 @@ export class ContactListComponent {
   changeColor(contact: Contact, event: Event) {
     contact.color = (event.target as HTMLInputElement).value;
   }
+
+	setEditMode(contact: Contact, editForm: NgForm) {
+		if (this.isInEditMode(contact)) {
+			if (editForm.valid) {
+				this.editingContacts.delete(contact);
+				this.edit.emit(contact);
+			}
+		} else {
+			this.editingContacts.add(contact);
+		}
+	}
+
+	isInEditMode(contact: Contact) {
+		return this.editingContacts.has(contact);
+	}
 }

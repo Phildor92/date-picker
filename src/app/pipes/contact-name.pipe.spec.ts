@@ -1,7 +1,7 @@
 import { Contact } from '../models/contact.model';
 import { ContactNamePipe } from './contact-name.pipe';
 
-fdescribe('ContactNamePipe', () => {
+describe('ContactNamePipe', () => {
   let pipe: ContactNamePipe;
 
   beforeEach(() => {

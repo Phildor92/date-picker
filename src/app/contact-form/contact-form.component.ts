@@ -10,10 +10,11 @@ import { FormsModule, NgForm } from '@angular/forms';
   styleUrl: './contact-form.component.scss'
 })
 export class ContactFormComponent {
+  editingContacts = new Set<Contact>();
   @Output() add = new EventEmitter<Contact>();
 
   newContact: Contact = {
-    id: 0,
+    id: '',
     email: '',
     firstName: '',
     surname: '',
@@ -23,4 +24,18 @@ export class ContactFormComponent {
     this.add.emit({ ...this.newContact });
     contactForm.reset();
   }
+
+  setEditMode(contact: Contact, editForm: NgForm) {
+		if (this.isInEditMode(contact)) {
+			if (editForm.valid) {
+				this.editingContacts.delete(contact);
+			}
+		} else {
+			this.editingContacts.add(contact);
+		}
+	}
+
+	isInEditMode(contact: Contact) {
+		return this.editingContacts.has(contact);
+	}
 }

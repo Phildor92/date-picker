@@ -1,5 +1,6 @@
 <div class="container">
-  <div class="jumbotron">Hello {{name}}</div>
-  <dp-contact-list [contacts]="contacts" (deleted)="deleteContact($event)" />
-  <dp-contact-form (add)="addContact($event)"></dp-contact-form>
+  <h1>Date Picker</h1>
+  <p class="lead">Pick your date</p>
+  <dp-menu></dp-menu>
+  <router-outlet></router-outlet>
 </div>

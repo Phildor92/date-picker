@@ -1,8 +1,7 @@
 {
   "events": [
     {
-      "id": "1",
-      "name": "Discuss Dune movie vs book",
+      "name": "Setup guillotine",
       "invitees": [
         {
           "id": "1",
@@ -16,11 +15,11 @@
           "surname": "Frank",
           "email": "frank@muscles.com"
         }
-      ]
+      ],
+      "id": "1"
     },
     {
-      "id": "2",
-      "name": "DND scenario finally",
+      "name": "Overthrow Etienne",
       "invitees": [
         {
           "id": "3",
@@ -28,7 +27,8 @@
           "surname": "Valentino",
           "email": "eddy@valfam.co.uk"
         }
-      ]
+      ],
+      "id": "2"
     }
   ],
   "contacts": [

@@ -1,0 +1,24 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Invitees</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for(event of events; track event.id){
+      <tr [routerLink]="['edit', event.id]">
+        <th scope="row">{{event.id}}</th>
+        <td>{{event.name}}</td>
+        <td>
+          <ul>
+            @for (invitee of event.invitees; track invitee.id){
+              <li>{{invitee | contactName }}</li>
+            }
+          </ul>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>

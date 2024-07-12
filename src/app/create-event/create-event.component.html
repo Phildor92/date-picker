@@ -1,0 +1,56 @@
+<h3 class="mb-3">Event createEventForm</h3>
+<createEventForm (submit)="submit()" [formGroup]="createEventForm">
+  <div class="row mb-3">
+    <label class="createEventForm-label col-md-3" for="inputName">Name:</label>
+    <div class="col">
+      <input class="createEventForm-control" type="text" id="inputName" formControlName="name"/>
+      @if (createEventForm.controls.name.touched || true) {
+        <div>
+          @if (createEventForm.controls.name.hasError('required')) {
+            <div class="invalid-feedback">
+              Please fill in an event name.
+            </div>
+          }
+          @if (createEventForm.controls.name.hasError('minlength')) {
+            <div class="invalid-feedback">
+              Minimal length is 2.
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label class="createEventForm-label col-md-3" for="inputStart">Start:</label>
+    <div class="col">
+      <input class="createEventForm-control" type="datetime-local" id="inputStart" formControlName="start"/>
+      @if (createEventForm.controls.start.touched || true) {
+        <div>
+          @if (createEventForm.controls.start.hasError('required')) {
+            <div class="invalid-feedback">
+              Please fill in an start date.
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label class="createEventForm-label col-md-3" for="inputEnd">End:</label>
+    <div class="col">
+      <input class="createEventForm-control" type="datetime-local" id="inputEnd" formControlName="end"/>
+      @if (createEventForm.controls.end.touched || true) {
+        <div>
+          @if (createEventForm.controls.end.hasError('required')) {
+            <div class="invalid-feedback">
+              Please fill in an end date.
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+  <div class="row mb-3">
+    <button [disabled]="!createEventForm.valid" class="btn btn-primary">Save</button>
+  </div>
+</createEventForm>

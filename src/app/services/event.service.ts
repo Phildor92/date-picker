@@ -18,12 +18,11 @@ export class EventService {
     return this.http.get<PlannedEvent>(`${environment.backendUrl}/events/${id}`);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  create({ id, ...eventData }: PlannedEvent): Observable<PlannedEvent> {
+  create(eventData : Omit<PlannedEvent, 'id'>): Observable<PlannedEvent> {
     return this.http.post<PlannedEvent>(`${environment.backendUrl}/events`,
       eventData);
   }
-  
+
   update({ id, ...eventData }: PlannedEvent): Observable<PlannedEvent> {
     return this.http.put<PlannedEvent>(`${environment.backendUrl}/events/${id}`,
       eventData);

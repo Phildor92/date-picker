@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { PlannedEvent } from '../models/planned-event.model';
 import { CommonModule } from '@angular/common';
 
@@ -10,28 +10,34 @@ import { CommonModule } from '@angular/common';
   templateUrl: './create-event.component.html',
   styleUrl: './create-event.component.scss'
 })
-export class CreateEventComponent {
-  @Output() submitted = new EventEmitter<Omit<PlannedEvent, 'id'>>();
+export class CreateEventComponent implements OnInit {
+  @Output() submitted = new EventEmitter<PlannedEvent>();
 
-  createEventForm = new FormGroup({
-    name: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(2)]}),
-    start: new FormControl(new Date(), {
-      nonNullable: true,
-      validators: [Validators.required]}),
-    end: new FormControl(new Date(), {
-      nonNullable: true,
-      validators: [Validators.required]}),
-  },
-  { validators: [this.startBeforeEnd] });
+  public createEventForm!: FormGroup<EventForm>;
+
+  constructor(private nonNullableFormBuilder: NonNullableFormBuilder){  }
+
+  ngOnInit(): void {
+    this.createEventForm = this.nonNullableFormBuilder.group<EventForm>({
+        name: this.nonNullableFormBuilder.control('', {
+          validators: [Validators.required, Validators.minLength(2)]}),
+        start: this.nonNullableFormBuilder.control(new Date(), {
+          validators: [Validators.required]}),
+        end: this.nonNullableFormBuilder.control(new Date(), {
+          validators: [Validators.required]}),
+        id: this.nonNullableFormBuilder.control(''),
+        invitees:this.nonNullableFormBuilder.control([])
+      },  { validators: [this.startBeforeEnd] }
+
+    )
+  }
 
   submit(){
     if(!this.createEventForm.valid)
       return;
 
     console.log(this.createEventForm.value);
-    this.submitted.emit({...this.createEventForm.value as Required<PlannedEvent>, invitees: []});
+    this.submitted.emit(this.createEventForm.getRawValue());
   }
 
   startBeforeEnd(form: AbstractControl): ValidationErrors | null {
@@ -47,3 +53,7 @@ export class CreateEventComponent {
       return null;
   }
 }
+
+export type EventForm = {
+  [P in keyof PlannedEvent]: FormControl<PlannedEvent[P]>;
+  };

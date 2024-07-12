@@ -26,7 +26,7 @@ export class EventsPageComponent implements OnInit {
     })
   }
 
-  addEvent(plannedEvent: Omit<PlannedEvent, 'id'>) {
+  addEvent(plannedEvent:PlannedEvent) {
     this.eventService.create(plannedEvent).subscribe(console.log);
   }
 }

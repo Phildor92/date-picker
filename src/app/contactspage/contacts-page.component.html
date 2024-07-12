@@ -1,2 +1,7 @@
-<dp-contact-list [contacts]="contacts" (deleted)="deleteContact($event)" />
+<dp-contact-list [contacts]="contacts" (deleted)="deleteContact($event)" (contactsSelected)="selectContacts($event)" />
+<button (click)="invite()" [disabled]="!selectedContacts?.size" class="btn btn-primary mb-3">
+  Invite @if (selectedContacts?.size) {
+  <span>({{selectedContacts?.size}})</span>
+  }
+</button>
 <dp-contact-form (add)="addContact($event)"></dp-contact-form>

@@ -13,6 +13,7 @@ import { ContactListComponent } from "../contact-list/contact-list.component";
 })
 export class ContactsPageComponent implements OnInit {
   contacts?: Contact[] =[];
+  selectedContacts?:Set<Contact>;
   name: string;
 
   constructor(private contactService: ContactService) {
@@ -36,5 +37,13 @@ export class ContactsPageComponent implements OnInit {
 
   addContact(contact: Contact) {
     this.contactService.create(contact);
+  }
+
+  selectContacts(contacts: Set<Contact> ){
+    this.selectedContacts = contacts;
+  }
+
+  invite(){
+    console.log('inviting ' + this.selectedContacts?.size);
   }
 }
